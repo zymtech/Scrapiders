@@ -1,0 +1,61 @@
+2016-05-19 09:33:56 [scrapy] INFO: Scrapy 1.0.1 started (bot: itjuzi)
+2016-05-19 09:33:56 [scrapy] INFO: Optional features available: ssl, http11
+2016-05-19 09:33:56 [scrapy] INFO: Overridden settings: {'NEWSPIDER_MODULE': 'itjuzi.spiders', 'CONCURRENT_REQUESTS': 10, 'SPIDER_MODULES': ['itjuzi.spiders'], 'BOT_NAME': 'itjuzi', 'COOKIES_ENABLED': False, 'DOWNLOAD_DELAY': 3, 'DOWNLOADER_CLIENTCONTEXTFACTORY': 'itjuzi.context.CustomContextFactory'}
+2016-05-19 09:33:56 [py.warnings] WARNING: :0: UserWarning: You do not have a working installation of the service_identity module: 'No module named service_identity'.  Please install it from <https://pypi.python.org/pypi/service_identity> and make sure all of its dependencies are satisfied.  Without the service_identity module and a recent enough pyOpenSSL to support it, Twisted can perform only rudimentary TLS client hostname verification.  Many valid certificate/hostname mappings may be rejected.
+
+2016-05-19 09:33:56 [scrapy] INFO: Enabled extensions: CloseSpider, TelnetConsole, LogStats, CoreStats, SpiderState
+2016-05-19 09:33:56 [py.warnings] WARNING: /usr/local/lib/python2.7/site-packages/Scrapy-1.0.1-py2.7.egg/scrapy/utils/deprecate.py:155: ScrapyDeprecationWarning: `scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware` class is deprecated, use `scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware` instead
+  ScrapyDeprecationWarning)
+
+2016-05-19 09:33:56 [scrapy] INFO: Enabled downloader middlewares: HttpAuthMiddleware, DownloadTimeoutMiddleware, UserAgentMiddleware, RetryMiddleware, RandomUserAgent, DefaultHeadersMiddleware, MetaRefreshMiddleware, HttpCompressionMiddleware, ProxyMiddleware, RedirectMiddleware, ChunkedTransferMiddleware, DownloaderStats
+2016-05-19 09:33:56 [scrapy] INFO: Enabled spider middlewares: HttpErrorMiddleware, OffsiteMiddleware, RefererMiddleware, UrlLengthMiddleware, DepthMiddleware
+2016-05-19 09:33:56 [scrapy] INFO: Enabled item pipelines: MongoPipeline
+2016-05-19 09:33:56 [scrapy] INFO: Spider opened
+2016-05-19 09:33:56 [scrapy] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2016-05-19 09:33:56 [scrapy] DEBUG: Telnet console listening on 127.0.0.1:6023
+2016-05-19 09:33:58 [scrapy] DEBUG: Redirecting (301) to <GET http://www.itjuzi.com/company/1> from <GET https://www.itjuzi.com/company/1>
+2016-05-19 09:34:00 [scrapy] DEBUG: Redirecting (301) to <GET http://www.itjuzi.com/company/2> from <GET https://www.itjuzi.com/company/2>
+2016-05-19 09:34:03 [scrapy] DEBUG: Redirecting (301) to <GET http://www.itjuzi.com/company/3> from <GET https://www.itjuzi.com/company/3>
+2016-05-19 09:34:06 [scrapy] DEBUG: Redirecting (301) to <GET http://www.itjuzi.com/company/4> from <GET https://www.itjuzi.com/company/4>
+2016-05-19 09:34:11 [scrapy] DEBUG: Redirecting (301) to <GET http://www.itjuzi.com/company/5> from <GET https://www.itjuzi.com/company/5>
+2016-05-19 09:34:15 [scrapy] DEBUG: Redirecting (301) to <GET http://www.itjuzi.com/company/6> from <GET https://www.itjuzi.com/company/6>
+2016-05-19 09:34:19 [scrapy] DEBUG: Redirecting (301) to <GET http://www.itjuzi.com/company/7> from <GET https://www.itjuzi.com/company/7>
+2016-05-19 09:34:23 [scrapy] DEBUG: Redirecting (301) to <GET http://www.itjuzi.com/company/8> from <GET https://www.itjuzi.com/company/8>
+2016-05-19 09:34:59 [scrapy] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2016-05-19 09:34:59 [scrapy] DEBUG: Redirecting (301) to <GET http://www.itjuzi.com/company/9> from <GET https://www.itjuzi.com/company/9>
+2016-05-19 09:34:59 [scrapy] DEBUG: Redirecting (301) to <GET http://www.itjuzi.com/company/10> from <GET https://www.itjuzi.com/company/10>
+2016-05-19 09:35:07 [scrapy] DEBUG: Retrying <GET http://www.itjuzi.com/company/2> (failed 1 times): 500 Internal Server Error
+2016-05-19 09:35:19 [scrapy] DEBUG: Retrying <GET http://www.itjuzi.com/company/5> (failed 1 times): [<twisted.python.failure.Failure <class 'twisted.internet.error.ConnectionLost'>>]
+2016-05-19 09:35:24 [scrapy] INFO: Received SIGINT, shutting down gracefully. Send again to force 
+2016-05-19 09:35:24 [scrapy] INFO: Closing spider (shutdown)
+2016-05-19 09:35:24 [scrapy] INFO: Received SIGINT twice, forcing unclean shutdown
+2016-05-19 09:35:24 [scrapy] DEBUG: Retrying <GET http://www.itjuzi.com/company/3> (failed 1 times): An error occurred while connecting: [Failure instance: Traceback (failure with no frames): <class 'twisted.internet.error.ConnectionLost'>: Connection to the other side was lost in a non-clean fashion: Connection lost.
+].
+2016-05-19 09:35:24 [scrapy] DEBUG: Retrying <GET http://www.itjuzi.com/company/6> (failed 1 times): An error occurred while connecting: [Failure instance: Traceback (failure with no frames): <class 'twisted.internet.error.ConnectionLost'>: Connection to the other side was lost in a non-clean fashion: Connection lost.
+].
+2016-05-19 09:35:24 [scrapy] DEBUG: Retrying <GET http://www.itjuzi.com/company/4> (failed 1 times): An error occurred while connecting: [Failure instance: Traceback (failure with no frames): <class 'twisted.internet.error.ConnectionLost'>: Connection to the other side was lost in a non-clean fashion: Connection lost.
+].
+2016-05-19 09:35:24 [scrapy] DEBUG: Retrying <GET http://www.itjuzi.com/company/1> (failed 1 times): An error occurred while connecting: [Failure instance: Traceback (failure with no frames): <class 'twisted.internet.error.ConnectionLost'>: Connection to the other side was lost in a non-clean fashion: Connection lost.
+].
+**************ProxyMiddleware have pass************218.56.132.156:8080
+**************ProxyMiddleware have pass************60.194.100.51:80
+**************ProxyMiddleware have pass************219.155.46.234:9999
+**************ProxyMiddleware have pass************211.23.17.101:3128
+**************ProxyMiddleware have pass************117.65.193.218:8118
+**************ProxyMiddleware have pass************218.56.132.154:8080
+**************ProxyMiddleware have pass************58.20.251.44:8080
+**************ProxyMiddleware have pass************112.65.200.211:80
+**************ProxyMiddleware have pass************112.124.219.37:80
+**************ProxyMiddleware have pass************58.243.0.162:9999
+**************ProxyMiddleware have pass************125.62.14.162:3128
+**************ProxyMiddleware have pass************60.194.100.51:80
+**************ProxyMiddleware have pass************125.62.14.162:3128
+**************ProxyMiddleware have pass************219.155.46.234:9999
+**************ProxyMiddleware have pass************58.20.251.44:8080
+**************ProxyMiddleware have pass************218.56.132.154:8080
+**************ProxyMiddleware have pass************125.62.14.162:3128
+**************ProxyMiddleware have pass************112.124.219.250:80
+**************ProxyMiddleware have pass************101.200.167.179:808
+**************ProxyMiddleware have pass************125.39.68.69:80
+**************ProxyMiddleware have pass************112.91.208.78:9999
+**************ProxyMiddleware have pass************210.13.102.81:8080
