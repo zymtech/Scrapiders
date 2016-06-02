@@ -38,12 +38,6 @@ USER_AGENTS = [
     "Opera/9.80 (Macintosh; Intel Mac OS X 10.6.8; U; fr) Presto/2.9.168 Version/11.52",
 ]
 
-# selected from www.xicidaili.com
-PROXIES = [
-    {'ip_port':'111.206.190.155:80','user_pass':''},
-    {'ip_port':'58.214.5.229:80','user_pass':''},
-    {'ip_port':'111.206.190.156:80','user_pass':''},
-]
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'jd_51job (+http://www.yourdomain.com)'
@@ -80,9 +74,9 @@ PROXIES = [
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-    'jd_51job.middlewares.RandomUserAgent': 543,
-    'jd_51job.middlewares.ProxyMiddleware':600,
-    'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware':650,
+    'jd_51job.middlewares.RandomUserAgent': 2,
+    'scrapy.contrib.downloadermiddleware.retry.RetryMiddleware': 3,
+    'jd_51job.HttpProxyMiddleware.HttpProxyMiddleware': 4,
 }
 
 # Enable or disable extensions

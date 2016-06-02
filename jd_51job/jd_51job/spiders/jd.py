@@ -7,6 +7,8 @@ from jd_51job.items import Jd51JobItem
 from scrapy.http import Request
 import os
 
+website_possible_httpstatus_list = [407,403]
+
 class Jd51JobSpider(scrapy.Spider):
     name = "jd_51job"
     allowed_domain = ["51job.com"]
@@ -19,10 +21,23 @@ class Jd51JobSpider(scrapy.Spider):
 
     start_url = "http://search.51job.com/jobsearch/search_result.php?"
 
+    def banned(self, response):
+        if response.status in website_possible_httpstatus_list:
+            return True
+        else:
+            return False
+
     def start_requests(self):
         return [scrapy.http.Request(self.start_url + 'keyword='+self.keywordcode, callback=self.parse)]
 
     def parse(self, response):
+
+        if self.banned(response):
+            yield scrapy.Request(
+                url=response.url,
+                meta={"change_proxy":True},
+                callback=self.parse
+            )
 
         item = Jd51JobItem()
         try:

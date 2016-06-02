@@ -2,7 +2,6 @@
 
 import random
 import base64
-from settings import PROXIES
 
 
 class RandomUserAgent(object):
