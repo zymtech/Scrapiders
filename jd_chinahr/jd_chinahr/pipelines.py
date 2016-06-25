@@ -19,5 +19,17 @@ class JdChinahrPipeline(object):
 
     def process_item(self, item, spider):
         bookinfo = dict(item)
-        self.post.insert(bookinfo)
+        self.post.update(
+            {"joblink": bookinfo['joblink']},
+            {"$set":{
+                "title" : bookinfo['title'],
+                "jobdetail" : bookinfo['jobdetail'],
+                "salary" : bookinfo['salary'],
+                "cityandedu" : bookinfo['cityandedu'],
+                "company" : bookinfo['company'],
+                "crawltime" : bookinfo['crawltime'],
+                "updatetime" : bookinfo['updatetime']}
+            },
+            upsert=True
+        )
         return item

@@ -8,13 +8,15 @@
 #     http://doc.scrapy.org/en/latest/topics/settings.html
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
+import os
+import json
 
 BOT_NAME = 'jd_chinahr'
 
 SPIDER_MODULES = ['jd_chinahr.spiders']
 NEWSPIDER_MODULE = 'jd_chinahr.spiders'
 
-MONGODB_HOST = "127.0.0.1"
+MONGODB_HOST = "192.168.1.59"
 MONGODB_PORT = 27017
 MONGODB_NAME = "chinahr"
 MONGODB_TABLE = "jd"
@@ -37,13 +39,6 @@ USER_AGENTS = [
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/535.20 (KHTML, like Gecko) Chrome/19.0.1036.7 Safari/535.20",
     "Opera/9.80 (Macintosh; Intel Mac OS X 10.6.8; U; fr) Presto/2.9.168 Version/11.52",
 ]
-
-# selected from www.xicidaili.com
-PROXIES = [
-    {'ip_port':'219.141.225.107:80','user_pass':''},
-    {'ip_port':'123.124.168.107:80','user_pass':''},
-    {'ip_port':'111.206.190.155:80','user_pass':''},
-]
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'jd_chinahr (+http://www.yourdomain.com)'
 
@@ -53,13 +48,15 @@ PROXIES = [
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-#DOWNLOAD_DELAY=3
+DOWNLOAD_DELAY=3
+RETRY_TIMES=10
+DOWNLOAD_TIMEOUT=200
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN=16
 #CONCURRENT_REQUESTS_PER_IP=16
 
 # Disable cookies (enabled by default)
-#COOKIES_ENABLED=False
+COOKIES_ENABLED=False
 
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED=False

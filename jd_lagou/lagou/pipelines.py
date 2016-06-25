@@ -20,5 +20,23 @@ class LagouPipeline(object):
 
     def process_item(self, item, spider):
         bookinfo = dict(item)
-        self.post.insert(bookinfo)
+        self.post.update(
+            {"positionURL": bookinfo['positionURL']},
+            {"$set":{
+                "city" : bookinfo['city'],
+                "companyName" : bookinfo['companyName'],
+                "companySize" : bookinfo['companySize'],
+                "positionName" : bookinfo['positionName'],
+                "salaryMax" : bookinfo['salaryMax'],
+                "salaryMin" : bookinfo['salaryMin'],
+                "positionType" : bookinfo['positionType'],
+                "positionAdvantage" : bookinfo['positionAdvantage'],
+                "companyLabelList" : bookinfo['companyLabelList'],
+                "keyword" : bookinfo['keyword'],
+                "jobdetail" : bookinfo['jobdetail'],
+                "updatetime" : bookinfo['updatetime'],
+                "crawltime" : bookinfo['crawltime']}
+            },
+            upsert=True
+        )
         return item

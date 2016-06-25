@@ -9,6 +9,7 @@ import fetch_free_proxyes
 
 logger = logging.getLogger(__name__)
 
+
 class HttpProxyMiddleware(object):
     # 遇到这些类型的错误直接当做代理不可用处理掉, 不再传给retrymiddleware
     DONT_RETRY_ERRORS = (TimeoutError, ConnectionRefusedError, ResponseNeverReceived, ConnectError, ValueError)
@@ -227,6 +228,7 @@ class HttpProxyMiddleware(object):
         """
         处理由于使用代理导致的连接异常
         """
+
         logger.debug("%s exception: %s" % (self.proxyes[request.meta["proxy_index"]]["proxy"], exception))
         request_proxy_index = request.meta["proxy_index"]
 

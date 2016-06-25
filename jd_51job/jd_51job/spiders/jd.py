@@ -5,9 +5,11 @@ import urllib
 
 from jd_51job.items import Jd51JobItem
 from scrapy.http import Request
+from scrapy.exceptions import IgnoreRequest
 import os
+import datetime
+import re
 
-website_possible_httpstatus_list = [407,403]
 
 class Jd51JobSpider(scrapy.Spider):
     name = "jd_51job"
@@ -20,50 +22,53 @@ class Jd51JobSpider(scrapy.Spider):
     keywordcode = urllib.quote(keyword)
 
     start_url = "http://search.51job.com/jobsearch/search_result.php?"
-
-    def banned(self, response):
-        if response.status in website_possible_httpstatus_list:
-            return True
-        else:
-            return False
+    urls = []
+    for kw in keywords:
+        url = start_url + 'keyword=' + urllib.quote(keyword)
+        urls.append(url)
 
     def start_requests(self):
-        return [scrapy.http.Request(self.start_url + 'keyword='+self.keywordcode, callback=self.parse)]
+        for url in self.urls:
+            yield scrapy.http.Request(url, callback=self.parse0, errback=self.errback)
+
+    def parse0(self, response):
+        print response.url
+        pagestr = response.xpath('//div[@class="dw_page"]//span[@class="td"]/text()').extract()[0]
+        page = re.search("[0-9]+",pagestr).group()  # unicode
+        for i in range(1,int(page)+1):
+            url = response.url + '&' + 'curr_page=' + str(i)
+            yield scrapy.Request(url, callback=self.parse, errback=self.errback)
+
+    def errback(self, response):
+        raise IgnoreRequest("ignore this request")
 
     def parse(self, response):
-
-        if self.banned(response):
-            yield scrapy.Request(
-                url=response.url,
-                meta={"change_proxy":True},
-                callback=self.parse
-            )
-
-        item = Jd51JobItem()
         try:
+            joblink = response.xpath('//div[@id="resultList"]/div[@class="el"]//p//span//a/@href').extract()
+            title = response.xpath('//div[@id="resultList"]/div[@class="el"]//p[@class="t1 "]//a/text()').extract()
+            company = response.xpath('//div[@id="resultList"]/div[@class="el"]//span[@class="t2"]/a/text()').extract()
+            updatetime = response.xpath('//div[@id="resultList"]/div[@class="el"]//span[@class="t5"]/text()').extract()
+            salary = response.xpath('//div[@id="resultList"]/div[@class="el"]//span[@class="t4"]/text()').extract()
+            city = response.xpath('//div[@id="resultList"]/div[@class="el"]//span[@class="t3"]/text()').extract()
             for i in range(49):
-                item['joblink'] = response.xpath('//div[@id="resultList"]/div[@class="el"]//p//span//a/@href').extract()[i]
-                item['title'] = response.xpath('//div[@id="resultList"]/div[@class="el"]//p[@class="t1 "]//a/text()').extract()[i]
-                item['company'] = response.xpath('//div[@id="resultList"]/div[@class="el"]//span[@class="t2"]/a/text()').extract()[i]
-                item['updatetime'] = response.xpath('//div[@id="resultList"]/div[@class="el"]//span[@class="t5"]/text()').extract()[i]
-                item['salary'] = response.xpath('//div[@id="resultList"]/div[@class="el"]//span[@class="t4"]/text()').extract()[i]
-                item['city'] = response.xpath('//div[@id="resultList"]/div[@class="el"]//span[@class="t3"]/text()').extract()[i]
+                item = Jd51JobItem()
+                item['joblink'] = str(joblink[i])
+                item['title'] = title[i]
+                item['company'] = company[i]
+                item['updatetime'] = datetime.datetime.now().strftime("%Y") + '-' + updatetime[i]
+                item['salary'] = salary[i]
+                item['city'] = city[i]
+                #item['crawltime'] = datetime.datetime.now().strftime("%a, %d %b %Y %H:%M:%S GMT")
+                item['crawltime'] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 yield Request(item['joblink'], meta={'pitem':item},callback=self.parse_jobdetail)
-        except IndexError:
-            pass
 
-        next_page = response.xpath('//table[@class="searchPageNav"]/tr/td[last()]/a/@href')
-        if next_page:
-            url = response.urljoin(next_page[0].extract())
-            yield scrapy.Request(url, self.parse)
-        else:
-            self.keywordcount += 1
-            if self.keywordcount < len(self.keywords):
-                self.keyword = self.keywords[self.keywordcount]
-                url = self.start_url + "keyword="+ urllib.quote(self.keyword)
-                yield scrapy.Request(url, self.parse)
+        except BaseException as e :
+            print e
 
     def parse_jobdetail(self,response):
         item = response.meta['pitem']
-        item['jobdetail'] = '<br>'.join(response.xpath('//div[@class="bmsg job_msg inbox"]/text()').extract()).encode('utf8')
+        try:
+            item['jobdetail'] = '<br>'.join(response.xpath('//div[@class="bmsg job_msg inbox"]/text()').extract()).encode('utf8')
+        except BaseException:
+            pass
         return item

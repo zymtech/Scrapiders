@@ -16,3 +16,4 @@ class Jd51JobItem(scrapy.Item):
     salary = Field()
     city = Field()
     jobdetail = Field()
+    crawltime = Field()

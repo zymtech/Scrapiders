@@ -17,3 +17,4 @@ class JdChinahrItem(scrapy.Item):
     salary = Field()
     cityandedu = Field()
     company = Field()
+    crawltime = Field()

@@ -1,8 +1,8 @@
 # coding = utf-8
 
 import random
-import base64
-from settings import PROXIES
+import requests
+import json
 
 
 class RandomUserAgent(object):
@@ -19,14 +19,21 @@ class RandomUserAgent(object):
         #print "**************************" + random.choice(self.agents)
         request.headers.setdefault('User-Agent', random.choice(self.agents))
 
+class GlobalProxyList(object):
+    proxylist = []
+    request_count = 0
+
 class ProxyMiddleware(object):
     def process_request(self, request, spider):
-        proxy = random.choice(PROXIES)
-        if proxy['user_pass'] is not None:
-            request.meta['proxy'] = "http://%s" % proxy['ip_port']
-            encoded_user_pass = base64.encodestring(proxy['user_pass'])
-            request.headers['Proxy-Authorization'] = 'Basic ' + encoded_user_pass
-            print "**************ProxyMiddleware have pass************" + proxy['ip_port']
-        else:
-            print "**************ProxyMiddleware no pass************" + proxy['ip_port']
-            request.meta['proxy'] = "http://%s" % proxy['ip_port']
+        if len(GlobalProxyList.proxylist) == 0 or GlobalProxyList.request_count > 300 * len(GlobalProxyList.proxylist):
+            self.change_proxy()
+            GlobalProxyList.request_count = 0
+        proxy = random.choice(GlobalProxyList.proxylist)
+        print "***********using proxy:%s***************" % proxy['host']
+        request.meta['proxy'] = "http://" + str(proxy['host']) + ':' + str(proxy['port'])
+        GlobalProxyList.request_count += 1
+
+    def change_proxy(self):
+        proxyurl = "http://192.168.1.251:9099/api/proxies"
+        proxies = requests.get(proxyurl)
+        GlobalProxyList.proxylist = json.loads(proxies.text)

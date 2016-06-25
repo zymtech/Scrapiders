@@ -8,13 +8,15 @@
 #     http://doc.scrapy.org/en/latest/topics/settings.html
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
+import os
+import json
 
 BOT_NAME = 'jd_51job'
 
 SPIDER_MODULES = ['jd_51job.spiders']
 NEWSPIDER_MODULE = 'jd_51job.spiders'
 
-MONGODB_HOST = "127.0.0.1"
+MONGODB_HOST = "192.168.1.59"
 MONGODB_PORT = 27017
 MONGODB_NAME = "51job"
 MONGODB_TABLE = "jd_51job"
@@ -37,7 +39,15 @@ USER_AGENTS = [
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/535.20 (KHTML, like Gecko) Chrome/19.0.1036.7 Safari/535.20",
     "Opera/9.80 (Macintosh; Intel Mac OS X 10.6.8; U; fr) Presto/2.9.168 Version/11.52",
 ]
-
+pwd = os.getcwd()
+path = os.path.abspath(os.path.join(pwd, os.pardir))
+path = os.path.join(path, 'proxies.txt')
+proxies = open(path, 'r').readlines()[0]
+PROXIES = json.loads(proxies)
+# selected from www.xicidaili.com
+#PROXIES = [
+#    {'ip_port':'61.50.101.146:8003','user_pass':''},
+#]
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'jd_51job (+http://www.yourdomain.com)'
@@ -48,13 +58,15 @@ USER_AGENTS = [
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-#DOWNLOAD_DELAY=3
+DOWNLOAD_DELAY=3
+RETRY_TIMES=10
+DOWNLOAD_TIMEOUT=100
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN=16
 #CONCURRENT_REQUESTS_PER_IP=16
 
 # Disable cookies (enabled by default)
-#COOKIES_ENABLED=False
+COOKIES_ENABLED=False
 
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED=False
@@ -74,9 +86,9 @@ USER_AGENTS = [
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-    'jd_51job.middlewares.RandomUserAgent': 2,
-    'scrapy.contrib.downloadermiddleware.retry.RetryMiddleware': 3,
-    'jd_51job.HttpProxyMiddleware.HttpProxyMiddleware': 4,
+    'jd_51job.middlewares.RandomUserAgent': 543,
+    'jd_51job.middlewares.ProxyMiddleware':1,
+    'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware':650,
 }
 
 # Enable or disable extensions

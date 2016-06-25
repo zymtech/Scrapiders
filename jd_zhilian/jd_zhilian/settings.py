@@ -8,11 +8,18 @@
 #     http://doc.scrapy.org/en/latest/topics/settings.html
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
+import os
+import json
 
 BOT_NAME = 'jd_zhilian'
 
 SPIDER_MODULES = ['jd_zhilian.spiders']
 NEWSPIDER_MODULE = 'jd_zhilian.spiders'
+
+MONGODB_HOST = "192.168.1.59"
+MONGODB_PORT = 27017
+MONGODB_NAME = "zhaopin"
+MONGODB_TABLE = "jd"
 
 USER_AGENTS = [
     "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; AcooBrowser; .NET CLR 1.1.4322; .NET CLR 2.0.50727)",
@@ -32,30 +39,11 @@ USER_AGENTS = [
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/535.20 (KHTML, like Gecko) Chrome/19.0.1036.7 Safari/535.20",
     "Opera/9.80 (Macintosh; Intel Mac OS X 10.6.8; U; fr) Presto/2.9.168 Version/11.52",
 ]
-
-PROXIES = [
-    {'ip_port':'125.39.68.69:80','user_pass':''},
-    {'ip_port':'218.56.132.154:8080','user_pass':''},
-    {'ip_port':'220.248.229.45:3128','user_pass':''},
-    {'ip_port':'58.20.251.44:8080','user_pass':''},
-    {'ip_port':'125.62.14.162:3128','user_pass':''},
-    {'ip_port': '112.65.200.211:80', 'user_pass': ''},
-    {'ip_port': '222.176.112.31:80', 'user_pass': ''},
-    {'ip_port': '219.155.46.234:9999', 'user_pass': ''},
-    {'ip_port': '113.110.217.149:9999', 'user_pass': ''},
-    {'ip_port': '61.132.234.186:3128', 'user_pass': ''},
-    {'ip_port': '58.243.0.162:9999', 'user_pass': ''},
-    {'ip_port': '112.124.219.37:80', 'user_pass': ''},
-    {'ip_port': '211.23.17.101:3128', 'user_pass': ''},
-    {'ip_port': '112.124.219.250:80', 'user_pass': ''},
-    {'ip_port':'112.91.208.78:9999', 'user_pass':''},
-    {'ip_port':'210.13.102.81:8080', 'user_pass':''},
-    {'ip_port': '122.225.106.35:80', 'user_pass': ''},
-    {'ip_port': '218.56.132.156:8080','user_pass': ''},
-    {'ip_port': '101.200.167.179:808', 'user_pass': ''},
-    {'ip_port': '117.65.193.218:8118', 'user_pass': ''},
-    {'ip_port': '60.194.100.51:80', 'user_pass': ''},
-]
+pwd = os.getcwd()
+path = os.path.abspath(os.path.join(pwd, os.pardir))
+path = os.path.join(path, 'proxies.txt')
+proxies = open(path, 'r').readlines()[0]
+PROXIES = json.loads(proxies)
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -68,6 +56,8 @@ CONCURRENT_REQUESTS=10
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
 DOWNLOAD_DELAY=3
+RETRY_TIMES=10
+DOWNLOAD_TIMEOUT=200
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN=16
 #CONCURRENT_REQUESTS_PER_IP=16
@@ -92,11 +82,11 @@ COOKIES_ENABLED=False
 
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'jd_zhilian.middlewares.RandomUserAgent': 543,
-#    'jd_zhilian.middlewares.ProxyMiddleware':600,
-#    'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware':650,
-#}
+DOWNLOADER_MIDDLEWARES = {
+    'jd_zhilian.middlewares.RandomUserAgent': 543,
+    'jd_zhilian.middlewares.ProxyMiddleware':1,
+    'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware':650,
+}
 
 # Enable or disable extensions
 # See http://scrapy.readthedocs.org/en/latest/topics/extensions.html
@@ -106,9 +96,9 @@ COOKIES_ENABLED=False
 
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'jd_zhilian.pipelines.SomePipeline': 300,
-#}
+ITEM_PIPELINES = {
+    'jd_zhilian.pipelines.JdZhilianPipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html
