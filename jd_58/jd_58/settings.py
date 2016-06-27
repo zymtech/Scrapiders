@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Scrapy settings for jd_zhilian project
+# Scrapy settings for jd_58 project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -11,14 +11,14 @@
 import os
 import json
 
-BOT_NAME = 'jd_zhilian'
+BOT_NAME = 'jd_58'
 
-SPIDER_MODULES = ['jd_zhilian.spiders']
-NEWSPIDER_MODULE = 'jd_zhilian.spiders'
+SPIDER_MODULES = ['jd_58.spiders']
+NEWSPIDER_MODULE = 'jd_58.spiders'
 
 MONGODB_HOST = "192.168.1.59"
 MONGODB_PORT = 27017
-MONGODB_NAME = "zhaopin"
+MONGODB_NAME = "58"
 MONGODB_TABLE = "jd"
 
 USER_AGENTS = [
@@ -43,23 +43,21 @@ USER_AGENTS = [
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'jd_zhilian (+http://www.yourdomain.com)'
+#USER_AGENT = 'jd_58 (+http://www.yourdomain.com)'
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-CONCURRENT_REQUESTS=10
+#CONCURRENT_REQUESTS=32
 
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY=3
-RETRY_TIMES=10
-DOWNLOAD_TIMEOUT=200
+#DOWNLOAD_DELAY=3
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN=16
 #CONCURRENT_REQUESTS_PER_IP=16
 
 # Disable cookies (enabled by default)
-COOKIES_ENABLED=False
+#COOKIES_ENABLED=False
 
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED=False
@@ -73,15 +71,15 @@ COOKIES_ENABLED=False
 # Enable or disable spider middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    'jd_zhilian.middlewares.MyCustomSpiderMiddleware': 543,
+#    'jd_58.middlewares.MyCustomSpiderMiddleware': 543,
 #}
 
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-    'jd_zhilian.middlewares.RandomUserAgent': 543,
-    'jd_zhilian.middlewares.ProxyMiddleware':1,
-    'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware':650,
+    'jd_58.middlewares.RandomUserAgent': 543,
+    'jd_58.middlewares.ProxyMiddleware': 600,
+    'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware': 650,
 }
 
 # Enable or disable extensions
@@ -93,7 +91,7 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'jd_zhilian.pipelines.JdZhilianPipeline': 300,
+    'jd_58.pipelines.Jd58Pipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

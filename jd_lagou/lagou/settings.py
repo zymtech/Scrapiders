@@ -50,11 +50,6 @@ USER_AGENTS = [
 ]
 
 # selected from www.xicidaili.com
-pwd = os.getcwd()
-path = os.path.abspath(os.path.join(pwd, os.pardir))
-path = os.path.join(path, 'proxies.txt')
-proxies = open(path, 'r').readlines()[0]
-PROXIES = json.loads(proxies)
 #PROXIES = [
 #    {'ip_port':'61.50.101.146:8003','user_pass':''},
 #    {'ip_port':'60.211.173.174:8003','user_pass':''},

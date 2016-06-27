@@ -39,11 +39,6 @@ USER_AGENTS = [
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/535.20 (KHTML, like Gecko) Chrome/19.0.1036.7 Safari/535.20",
     "Opera/9.80 (Macintosh; Intel Mac OS X 10.6.8; U; fr) Presto/2.9.168 Version/11.52",
 ]
-pwd = os.getcwd()
-path = os.path.abspath(os.path.join(pwd, os.pardir))
-path = os.path.join(path, 'proxies.txt')
-proxies = open(path, 'r').readlines()[0]
-PROXIES = json.loads(proxies)
 # selected from www.xicidaili.com
 #PROXIES = [
 #    {'ip_port':'61.50.101.146:8003','user_pass':''},
